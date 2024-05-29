@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="swagger.test.mapper.MemberMapper">
+    <select id="selectMember" parameterType="swagger.test.dto.MemberDto$req" resultType="swagger.test.dto.MemberDto$res">
+        SELECT name
+        FROM tb_member
+        WHERE loginId = #{loginId} AND password = #{password}
+    </select>
+</mapper>
