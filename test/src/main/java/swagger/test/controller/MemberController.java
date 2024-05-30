@@ -41,6 +41,21 @@ public class MemberController {
         }
     }
 
+    @Operation(summary = "세션에 저장된 정보", description = "로그인된 사용자 정보를 반환")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = MemberDto.res.class))}),
+            @ApiResponse(responseCode = "401", description = "Not logged in", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = String.class))})
+    })
+    @GetMapping("/session/user")
+    public ResponseEntity<?> getLoggedInUser(HttpSession session) {
+        MemberDto.res loginUser = (MemberDto.res) session.getAttribute("loginUser");
+        if (loginUser != null) {
+            return ResponseEntity.ok(loginUser);
+        } else {
+            return ResponseEntity.status(401).body("Not logged in");
+        }
+    }
+
     @Operation(summary = "Logout", description = "Logout 관련 로직") // todo Controller에서는 Operation이 있어야 ui에서 볼 수 있음
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Logout successful", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = String.class))})
